@@ -40,15 +40,51 @@
 <body>
 
     <div class="wrapper">
-        <div class="container">
-            <div id="title">
-
+        <div class="container text-center">
+            <div class="row my-2">
+                <div class="col-12">
+                    <div class="my-2">
+                        Click a button to change data set used for visualization.
+                    </div>
+                    <div class="button-container">
+                        <button
+                            id="video-game-button"
+                            class="btn btn-danger mx-3 my-1"
+                            value="videoGames"
+                            onclick="changeDataSet(this)"
+                        >
+                            Video Games
+                        </button>
+                        <button
+                            id="kickstarter-pledges-button"
+                            class="btn btn-danger mx-3 my-1"
+                            value="kickstarterPledges"
+                            onclick="changeDataSet(this)"
+                        >
+                            Kickstarter
+                        </button>
+                        <button
+                            id="movies-button"
+                            class="btn btn-danger mx-3 my-1"
+                            value="movies"
+                            onclick="changeDataSet(this)"
+                        >
+                            Movies
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div id="description">
-
-            </div>
-            <div class="tree-diagram">
-                
+            <div class="row mt-5">
+                <div class="col-12">
+                    <div id="title">
+                        <h1 id="title-text"></h1>
+                    </div>
+                    <div id="description">
+                        <h5 id="description-text"></h5>
+                    </div>
+                    <div class="tree-diagram">
+                    </div>
+                </div>
             </div>
         </div>
     </div>
