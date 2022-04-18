@@ -52,13 +52,13 @@ const drawMap = () => {
     .attr("id", "tooltip")
     .offset([-10,0]);
 
-    const width = 850;
-    const height = 550;
+    const width = 900; // 950
+    const height = 550; // 700
 
     let svg = d3.select(".tree-diagram")
     .append("svg")
     .attr("id", "tree-diagram")
-    .attr("viewBox", `0 0 ${width + 100} ${height + 100}`)
+    .attr("viewBox", `0 0 ${width + 100} ${height + 150}`)
     .call(tip);
 
     d3.json(dataSet.url).then((data, error) => {
@@ -87,7 +87,10 @@ const drawMap = () => {
             .attr("class", "tile")
             .attr("data-name", d => d.data.name)
             .attr("data-category", d => d.data.category)
-            .attr("data-value", d => d.data.value)
+            .attr("data-value", d => {
+                console.log(d.data.value)
+                return d.data.value
+            })
             .style("fill", d => colorScale(d.data.category))
             .on("mouseover", (event,d) => {
                 let format = (dataSet.title == "Kickstarter Pledges") ?
@@ -96,8 +99,37 @@ const drawMap = () => {
 
                 let value = format(d.data.value);
 
-                tip.attr("data-value", value);
+                tip.attr("data-value", d.data.value);
                 tip.html(`${d.data.category}<br>${d.data.name}<br>${value}`);
+                tip.show(event);
+            })
+            .on("mouseout", tip.hide);
+
+            const categories = root.leaves()
+            .map(nodes => nodes.data.category)
+            .filter((category, index, categories) => {
+                return categories.indexOf(category) == index;
+            });
+
+            let xLegend = (width + 100) / 2 - ((categories.length * 40)/2)
+
+            const legend = svg.append("g")
+            .attr("id", "legend")
+            .attr("transform", `translate(${xLegend},600)`)
+
+            legend.append("g")
+            .selectAll("rect")
+            .data(categories)
+            .enter()
+            .append("rect")
+            .attr("x", (d, i) => i * 40)
+            .attr("y", "20")
+            .attr("width", "25")
+            .attr("height", "25")
+            .attr("fill", d => colorScale(d))
+            .attr("class", "legend-item")
+            .on("mouseover", (event,d) => {
+                tip.html(`${d}`);
                 tip.show(event);
             })
             .on("mouseout", tip.hide);
