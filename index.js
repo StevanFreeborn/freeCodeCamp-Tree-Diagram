@@ -52,8 +52,8 @@ const drawMap = () => {
     .attr("id", "tooltip")
     .offset([-10,0]);
 
-    const width = 900; // 950
-    const height = 550; // 700
+    const width = 900;
+    const height = 550;
 
     let svg = d3.select(".tree-diagram")
     .append("svg")
@@ -111,6 +111,9 @@ const drawMap = () => {
                 return categories.indexOf(category) == index;
             });
 
+            // calc legend placement to account for different
+            // number of categories in the three different
+            // data sets.
             let xLegend = (width + 100) / 2 - ((categories.length * 40)/2)
 
             const legend = svg.append("g")
